@@ -1,0 +1,3 @@
+/services/bluesky_ingestion/bluesky_ingestion_venv/**
+/services/ml_execution/ml_execution_venv/**
+/notebooks
