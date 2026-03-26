@@ -3,7 +3,7 @@ import logging
 import websockets
 
 from ..queues.firehose_queue import FirehoseQueue
-from ..models.firehose_post import FirehosePostResponse
+from ..models.bluesky_post import BlueskyPost
 
 class BlueskyFirehoseStream():
 
@@ -13,10 +13,9 @@ class BlueskyFirehoseStream():
         self._logger = logging.getLogger(self.__class__.__name__)
 
     async def start(self):
-        async with websockets.connect('ws://localhost:8765') as websocket:
-            message = "Hello, Server!"
-            await websocket.send(message)
-            response = await websocket.recv()
-            json_response = json.loads(response)
-            self._logger.debug(f"Received response")
-            await self._queue.put(FirehosePostResponse(**json_response))
+        async with websockets.connect(self._uri) as websocket:
+            for i in range(6):
+                response = await websocket.recv()
+                json_response = json.loads(response)
+                print(f"Received response: {json_response}")
+                await self._queue.put(BlueskyPost(**json_response))
