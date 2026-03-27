@@ -18,5 +18,5 @@ class ProfileDataEnrichmentService:
         while True:
             post_model : bluesky_post.BlueskyPost = await self._queue.get()
             profile_model = self._profile_repo.get_profile(post_model.did)
-            yield profile_model
+            yield (post_model, profile_model)
             
